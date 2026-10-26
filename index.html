@@ -59,6 +59,7 @@
       <h3>Theme</h3>
       <p>Toggle a dark background to check styles.</p>
       <button class="primary" id="theme">Toggle theme</button>
+      <button class="outline" id="subscribe" type="button" style="margin-top:10px;">Subscribe</button>
     </div>
   </section>
 </main>
@@ -80,6 +81,9 @@
     const dark = document.body.style.background === 'rgb(28, 25, 23)';
     document.body.style.background = dark ? '' : '#1C1917';
     document.body.style.color = dark ? '' : '#F7F5F3';
+  };
+  document.getElementById('subscribe').onclick = (e) => {
+    e.currentTarget.textContent = 'Subscribed!';
   };
 </script>
 </body>
