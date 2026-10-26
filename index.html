@@ -27,20 +27,6 @@
   .tab { border:0; background:transparent; padding:6px 12px; border-radius:8px; cursor:pointer; color:var(--muted); }
   .tab[aria-selected="true"] { background:var(--accent-soft); color:var(--accent); font-weight:600; }
   footer { text-align:center; color:var(--muted); font-size:13px; padding:24px; }
-  .volume-row { display:flex; align-items:center; gap:12px; margin-top:8px; }
-  .volume-row input[type="range"] {
-    flex:1; height:6px; border-radius:999px; appearance:none; background:var(--accent-soft);
-    accent-color:var(--accent);
-  }
-  .volume-row input[type="range"]::-webkit-slider-thumb {
-    appearance:none; width:18px; height:18px; border-radius:50%; background:var(--accent); cursor:pointer;
-    box-shadow:0 1px 3px rgba(0,0,0,.15);
-  }
-  .volume-row input[type="range"]::-moz-range-thumb {
-    width:18px; height:18px; border-radius:50%; background:var(--accent); border:0; cursor:pointer;
-  }
-  .volume-value { font-size:24px; font-weight:700; min-width:3.5ch; text-align:right; color:var(--accent); }
-  .volume-label { margin:0 0 4px; font-size:14px; color:var(--muted); }
 </style>
 </head>
 <body>
@@ -75,14 +61,6 @@
       <button class="primary" id="theme">Toggle theme</button>
       <button class="outline" id="subscribe" type="button" style="margin-top:10px;">Subscribe</button>
     </div>
-    <div class="card">
-      <h3>Volume</h3>
-      <p class="volume-label">Drag to make sound louder or quieter.</p>
-      <div class="volume-row">
-        <input type="range" id="volume" min="0" max="100" value="50" aria-label="Volume level" />
-        <span class="volume-value" id="volume-value">50%</span>
-      </div>
-    </div>
   </section>
 </main>
 <footer>
@@ -107,9 +85,6 @@
   document.getElementById('subscribe').onclick = (e) => {
     e.currentTarget.textContent = 'Subscribed!';
   };
-  const volumeEl = document.getElementById('volume');
-  const volumeValueEl = document.getElementById('volume-value');
-  volumeEl.oninput = () => { volumeValueEl.textContent = volumeEl.value + '%'; };
 </script>
 </body>
 </html>
