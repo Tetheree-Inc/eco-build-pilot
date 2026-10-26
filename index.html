@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Eco Build Pilot</title>
+<style>
+  :root { --accent:#D8632B; --accent-soft:#F4E6DE; --bg:#F7F5F3; --text:#1C1917; --muted:#78716C; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); }
+  header { padding:20px 32px; display:flex; align-items:center; gap:12px; }
+  .logo { width:36px; height:36px; border-radius:10px; background:#EB923B; color:#fff; display:grid; place-items:center; font-weight:700; }
+  main { max-width:960px; margin:0 auto; padding:24px 32px 64px; }
+  .hero h1 { font-size:44px; line-height:1.1; margin:24px 0 12px; }
+  .hero p { color:var(--muted); font-size:18px; max-width:620px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px; margin-top:40px; }
+  .card { background:#fff; border-radius:16px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+  .card h3 { margin:0 0 8px; }
+  button.primary { background:var(--accent); color:#fff; border:0; border-radius:10px; padding:10px 18px; font-size:15px; cursor:pointer; }
+  button.primary:hover { filter:brightness(1.05); }
+  .counter { font-size:32px; font-weight:700; margin:8px 0 12px; }
+  .tabs { display:flex; gap:8px; margin-bottom:12px; }
+  .tab { border:0; background:transparent; padding:6px 12px; border-radius:8px; cursor:pointer; color:var(--muted); }
+  .tab[aria-selected="true"] { background:var(--accent-soft); color:var(--accent); font-weight:600; }
+  footer { text-align:center; color:var(--muted); font-size:13px; padding:24px; }
+</style>
+</head>
+<body>
+<header><div class="logo">E</div><strong>Eco Build Pilot</strong></header>
+<main>
+  <section class="hero">
+    <h1>Request it. Approve it. See it live.</h1>
+    <p>A tiny landing page used to prove the Eco request-to-build path: an approved request becomes an agent pull request, a gated staging deploy, and a change on this page.</p>
+  </section>
+  <section class="cards">
+    <div class="card">
+      <h3>Counter</h3>
+      <div class="counter" id="count">0</div>
+      <button class="primary" id="inc">Click me</button>
+    </div>
+    <div class="card">
+      <h3>Flow</h3>
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" aria-selected="true" data-panel="0">Request</button>
+        <button class="tab" role="tab" aria-selected="false" data-panel="1">Build</button>
+        <button class="tab" role="tab" aria-selected="false" data-panel="2">Deploy</button>
+      </div>
+      <p id="panel">Someone asks Eco for a change, and a human approves it.</p>
+    </div>
+    <div class="card">
+      <h3>Theme</h3>
+      <p>Toggle a dark background to check styles.</p>
+      <button class="primary" id="theme">Toggle theme</button>
+    </div>
+  </section>
+</main>
+<footer>Eco spike DT-1993 &middot; pilot repo, safe to change</footer>
+<script>
+  let n = 0;
+  document.getElementById('inc').onclick = () => { document.getElementById('count').textContent = ++n; };
+  const texts = ['Someone asks Eco for a change, and a human approves it.', 'A coding agent opens a pull request with the change.', 'Staging waits until Eco approves the deploy.'];
+  document.querySelectorAll('.tab').forEach(t => t.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', 'false'));
+    t.setAttribute('aria-selected', 'true');
+    document.getElementById('panel').textContent = texts[+t.dataset.panel];
+  });
+  document.getElementById('theme').onclick = () => {
+    const dark = document.body.style.background === 'rgb(28, 25, 23)';
+    document.body.style.background = dark ? '' : '#1C1917';
+    document.body.style.color = dark ? '' : '#F7F5F3';
+  };
+</script>
+</body>
+</html>
