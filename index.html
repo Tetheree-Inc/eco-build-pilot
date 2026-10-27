@@ -45,6 +45,8 @@
   }
   .volume-value { font-size:24px; font-weight:700; min-width:3.5ch; text-align:right; color:var(--accent); }
   .volume-label { margin:0 0 4px; font-size:14px; color:var(--muted); }
+  .greeting-row { display:flex; align-items:center; gap:8px; margin:0; font-size:15px; cursor:pointer; }
+  .greeting-row input[type="checkbox"] { width:14px; height:14px; margin:0; accent-color:var(--accent); flex-shrink:0; }
 </style>
 </head>
 <body>
@@ -101,7 +103,10 @@
     </div>
     <div class="card">
       <h3>Work Orders</h3>
-      <p>Hello from ECO Work Orders</p>
+      <label class="greeting-row">
+        <input type="checkbox" id="wo-greeting" />
+        Hello from ECO Work Orders
+      </label>
     </div>
   </section>
 </main>
