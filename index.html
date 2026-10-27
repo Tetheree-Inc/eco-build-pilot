@@ -10,6 +10,10 @@
   body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--text); }
   header { padding:20px 32px; display:flex; align-items:center; gap:12px; }
   .logo { width:36px; height:36px; border-radius:10px; background:#EB923B; color:#fff; display:grid; place-items:center; font-weight:700; }
+  .env-band { height:4px; background:#15803D; }
+  .env-badge { margin-left:auto; font-size:12px; font-weight:600; letter-spacing:.04em; padding:4px 10px; border-radius:999px; background:#DCFCE7; color:#166534; }
+  body.env-dev .env-band { height:6px; background:#F59E0B; }
+  body.env-dev .env-badge { background:#FEF3C7; color:#92400E; }
   main { max-width:960px; margin:0 auto; padding:24px 32px 64px; }
   .hero h1 { font-size:44px; line-height:1.1; margin:24px 0 12px; }
   .hero p { color:var(--muted); font-size:18px; max-width:620px; }
@@ -44,7 +48,19 @@
 </style>
 </head>
 <body>
-<header><div class="logo">E</div><strong>Eco Build Pilot</strong></header>
+<div class="env-band" aria-hidden="true"></div>
+<header><div class="logo">E</div><strong>Eco Build Pilot</strong><span class="env-badge" id="env-badge">PROD · main</span></header>
+<script>
+  // Env badge: the develop branch is published under /dev/, main at the site root.
+  (function () {
+    var isDev = /\/dev(\/|$)/.test(location.pathname);
+    document.getElementById('env-badge').textContent = isDev ? 'DEV · develop' : 'PROD · main';
+    if (isDev) {
+      document.body.classList.add('env-dev');
+      document.title = '[DEV] ' + document.title;
+    }
+  })();
+</script>
 <main>
   <section class="hero">
     <h1>Request it. Approve it. See it live.</h1>

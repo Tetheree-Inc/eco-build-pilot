@@ -1,10 +1,11 @@
-# Simple workflow for deploying static content to GitHub Pages
+# Deploys the pilot to GitHub Pages: main is PROD at /, develop is DEV at /dev/.
+# Both branches publish one combined site, so a push to either rebuilds both paths.
 name: Deploy static content to Pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # PROD (main) and DEV (develop)
   push:
-    branches: ["main"]
+    branches: ["main", "develop"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -22,22 +23,39 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
+  # Single deploy job since we're just deploying.
+  # The deployment is created for the pushed commit (github.sha), which is what the Eco Build Gate matches.
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout main (PROD, served at /)
         uses: actions/checkout@v4
+        with:
+          ref: main
+          path: _site
+      - name: Checkout develop (DEV, served at /dev/)
+        id: checkout_develop
+        continue-on-error: true
+        uses: actions/checkout@v4
+        with:
+          ref: develop
+          path: _site/dev
+      - name: Note missing develop
+        if: steps.checkout_develop.outcome != 'success'
+        run: |
+          echo "::warning::develop branch not found; publishing PROD only"
+          rm -rf _site/dev
+      - name: Strip repository metadata
+        run: rm -rf _site/.git _site/.github _site/dev/.git _site/dev/.github
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          path: '_site'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
