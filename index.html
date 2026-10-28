@@ -45,6 +45,15 @@
   }
   .volume-value { font-size:24px; font-weight:700; min-width:3.5ch; text-align:right; color:var(--accent); }
   .volume-label { margin:0 0 4px; font-size:14px; color:var(--muted); }
+  .card-stack { grid-column:1 / -1; display:flex; flex-direction:column; gap:16px; }
+  @media (min-width:640px) { .card-stack { max-width:min(100%,360px); } }
+  .status-msg { margin:12px 0 0; font-size:14px; color:var(--text); }
+  .status-msg time { display:block; margin-top:4px; color:var(--muted); font-size:13px; }
+  @media (max-width:480px) {
+    main { padding:20px 16px 48px; }
+    header { padding:16px; }
+    .hero h1 { font-size:32px; }
+  }
 </style>
 </head>
 <body>
@@ -99,6 +108,21 @@
         <span class="volume-value" id="volume-value">50%</span>
       </div>
     </div>
+    <div class="card-stack">
+      <div class="card">
+        <h3>Work Orders</h3>
+        <p>Hello from ECO Work Orders</p>
+      </div>
+      <div class="card">
+        <h3>Deployment status</h3>
+        <p>Built and deployed by ECO</p>
+        <button class="primary" type="button" id="check-status">Check status</button>
+        <div class="status-msg" id="status-msg" hidden>
+          <span>All systems operational</span>
+          <time id="status-time"></time>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 <footer>
@@ -126,6 +150,13 @@
   const volumeEl = document.getElementById('volume');
   const volumeValueEl = document.getElementById('volume-value');
   volumeEl.oninput = () => { volumeValueEl.textContent = volumeEl.value + '%'; };
+  document.getElementById('check-status').onclick = () => {
+    const msg = document.getElementById('status-msg');
+    const timeEl = document.getElementById('status-time');
+    timeEl.textContent = new Date().toLocaleString();
+    timeEl.dateTime = new Date().toISOString();
+    msg.hidden = false;
+  };
 </script>
 </body>
 </html>
